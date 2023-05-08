@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="client_tools.js"></script>
+    <script>
+      let txtUsername, txtPassword, btnLogin, btnSignup;
+      let divLogin, divMessages;
+      let lblLoginMessage;
+      let txtMessage, divMessageBoard;
+      let username, password;
+      function init() {
+        txtUsername = document.getElementById("txtUsername");
+        txtPassword = document.getElementById("txtPassword");
+        btnLogin = document.getElementById("btnLogin");
+        btnSignup = document.getElementById("btnSignup");
+        divLogin = document.getElementById("divLogin");
+        divMessages = document.getElementById("divMessages");
+        lblLoginMessage = document.getElementById("lblLoginMessage");
+        txtMessage = document.getElementById("txtMessage");
+        divMessageBoard = document.getElementById("divMessageBoard");
+      }
+
+      function btnLoginSignupClicked(loginOrSignup) {
+        username = txtUsername.value;
+        password = txtPassword.value;
+        if (!username || !password) {
+          return;
+        }
+        btnLogin.disabled = true;
+        btnSignup.disabled = true;
+        sendHttpGetRequest(
+          "api/" +
+            loginOrSignup +
+            "?username=" +
+            username +
+            "&password=" +
+            password,
+          (response) => {
+            btnLogin.disabled = false;
+            btnSignup.disabled = false;
+            if (response == "ok") {
+              divLogin.style.display = "none";
+              divMessages.style.display = "block";
+              pullMessages();
+            } else {
+              lblLoginMessage.innerHTML =
+                loginOrSignup == "login"
+                  ? "invalid username or password"
+                  : "username already taken";
+            }
+          }
+        );
+      }
+
+      function pullMessages() {
+        //send http request to server to pull the messages
+        sendHttpGetRequest("....", (response) => {
+          setTimeout(pullMessages, 500);
+        });
+      }
+    </script>
+    <style>
+      #divMessages {
+        display: none;
+      }
+      #divMessageBoard {
+        height: 600px;
+        overflow-y: scroll;
+        border: 1px solid gray;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body onload="init()">
+    <h1>Ultimate Chess</h1>
+    <div id="divLogin">
+      <p>username: <input id="txtUsername" type="text" /></p>
+      <p>password: <input id="txtPassword" type="password" /></p>
+      <p>
+        <button id="btnLogin" onclick="btnLoginSignupClicked('login')">
+          login
+        </button>
+        <button id="btnSignup" onclick="btnLoginSignupClicked('signup')">
+          signup
+        </button>
+      </p>
+      <p id="lblLoginMessage"></p>
+    </div>
+    <div id="divMessages">
+      <h2>messages</h2>
+      <div id="divMessageBoard"></div>
+      <p>
+        <input type="text" id="txtMessage" />
+        <button>send</button>
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Chess Board</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="gamePlay.js"></script>
+    <script src="client_tools.js"></script>
+  </head>
+  <body style="background-image: url(8e9vxB.webp); background-size: cover">
+    <h1 id="pageHeader">Ultimate Chess</h1>
+    <h2 id="secondHeader" style="text-align: center"></h2>
+    <div id="divLogin" class="shown; divLogin">
+      <h2>login</h2>
+      <p>username: <input class="lock" type="text" id="txtUsername" /></p>
+      <p>password: <input class="lock" type="password" id="txtPassword" /></p>
+      <p>
+        <button class="lock" onclick="btnLoginSignupClicked('login')">
+          login</button
+        ><button class="lock" onclick="btnLoginSignupClicked('signup')">
+          signup
+        </button>
+      </p>
+      <p id="pLoginMessage"></p>
+    </div>
+    <div id="newOrActiveGame" class="pickerContainer; hidden">
+      <button id="newGameButton" class="lock; picker" onclick="newGame()">
+        New Game
+      </button>
+      <button
+        id="existingGameButton"
+        class="lock; picker"
+        onclick="getLobbyOfActiveGames()"
+      >
+        Find Active <br />
+        Game
+      </button>
+    </div>
+    <div id="colorPickerContainer" class="pickerContainer; hidden">
+      <button
+        id="colPickerWhite"
+        class="picker"
+        style="background-color: white"
+      >
+        White
+      </button>
+      <button
+        id="colPickerBlack"
+        class="picker"
+        style="background-color: black; color: white"
+      >
+        Black
+      </button>
+    </div>
+    <div id="divLobby" class="hidden">
+      <h2>Active Games</h2>
+      <div id="divActiveGames"></div>
+    </div>
+    <div id="app" class="shown"></div>
+  </body>
+</html>
